@@ -2,8 +2,8 @@ package de.hatoka.kube;
 
 public enum CornerPosition
 {
-    TLF(Side.TOP, Side.LEFT, Side.FRONT), TLB(Side.TOP, Side.LEFT, Side.BACK), TRF(Side.TOP, Side.RIGHT, Side.FRONT),
-    TRB(Side.TOP, Side.RIGHT, Side.BACK), DLF(Side.DOWN, Side.LEFT, Side.FRONT), DLB(Side.DOWN, Side.LEFT, Side.BACK),
+    TLF(Side.UP, Side.LEFT, Side.FRONT), TLB(Side.UP, Side.LEFT, Side.BACK), TRF(Side.UP, Side.RIGHT, Side.FRONT),
+    TRB(Side.UP, Side.RIGHT, Side.BACK), DLF(Side.DOWN, Side.LEFT, Side.FRONT), DLB(Side.DOWN, Side.LEFT, Side.BACK),
     DRF(Side.DOWN, Side.RIGHT, Side.FRONT), DRB(Side.DOWN, Side.RIGHT, Side.BACK);
 
     private final Side side1;
