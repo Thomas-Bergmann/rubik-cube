@@ -3,13 +3,16 @@ package de.hatoka.kube;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents the positions of pieces of the 2x2 cube.
  */
 public class Kube2x2State
 {
-    public static Kube2x2State initial()
+    public static final Kube2x2State INITIAL = initial();
+
+    private static Kube2x2State initial()
     {
         Map<CornerPosition, CornerState> positions = new HashMap<>();
         positions.put(CornerPosition.TLF, CornerState.valueOf(CornerPiece.WOG));
@@ -39,6 +42,131 @@ public class Kube2x2State
 
     public boolean isFinished()
     {
-        return true;
+        return INITIAL.equals(this);
+    }
+
+    public Kube2x2State turn(Kube2x2Move move)
+    {
+        Map<CornerPosition, CornerState> newPositions = new HashMap<>(positions);
+        switch(move)
+        {
+            case L :
+            {
+                newPositions.put(CornerPosition.TLF, positions.get(CornerPosition.TLB));
+                newPositions.put(CornerPosition.TLB, positions.get(CornerPosition.DLB));
+                newPositions.put(CornerPosition.DLB, positions.get(CornerPosition.DLF));
+                newPositions.put(CornerPosition.DLF, positions.get(CornerPosition.TLF));
+                break;
+            }
+            case L_ :
+            {
+                newPositions.put(CornerPosition.TLF, positions.get(CornerPosition.DLF));
+                newPositions.put(CornerPosition.DLF, positions.get(CornerPosition.DLB));
+                newPositions.put(CornerPosition.DLB, positions.get(CornerPosition.TLB));
+                newPositions.put(CornerPosition.TLB, positions.get(CornerPosition.TLF));
+                break;
+            }
+            case R :
+            {
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.DRF));
+                newPositions.put(CornerPosition.DRF, positions.get(CornerPosition.DRB));
+                newPositions.put(CornerPosition.DRB, positions.get(CornerPosition.TRB));
+                newPositions.put(CornerPosition.TRB, positions.get(CornerPosition.TRF));
+                break;
+            }
+            case R_:
+            {
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.TRB));
+                newPositions.put(CornerPosition.TRB, positions.get(CornerPosition.DRB));
+                newPositions.put(CornerPosition.DRB, positions.get(CornerPosition.DRF));
+                newPositions.put(CornerPosition.DRF, positions.get(CornerPosition.TRF));
+                break;
+            }
+            case D:
+            {
+                newPositions.put(CornerPosition.DLF, positions.get(CornerPosition.DLB));
+                newPositions.put(CornerPosition.DLB, positions.get(CornerPosition.DRB));
+                newPositions.put(CornerPosition.DRB, positions.get(CornerPosition.DRF));
+                newPositions.put(CornerPosition.DRF, positions.get(CornerPosition.DLF));
+                break;
+            }
+            case D_:
+            {
+                newPositions.put(CornerPosition.DLF, positions.get(CornerPosition.DRF));
+                newPositions.put(CornerPosition.DRF, positions.get(CornerPosition.DRB));
+                newPositions.put(CornerPosition.DRB, positions.get(CornerPosition.DLB));
+                newPositions.put(CornerPosition.DLB, positions.get(CornerPosition.DLF));
+                break;
+            }
+            case U:
+            {
+                newPositions.put(CornerPosition.TLF, positions.get(CornerPosition.TRF));
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.TRB));
+                newPositions.put(CornerPosition.TRB, positions.get(CornerPosition.TLB));
+                newPositions.put(CornerPosition.TLB, positions.get(CornerPosition.TLF));
+                break;
+            }
+            case U_:
+            {
+                newPositions.put(CornerPosition.TLF, positions.get(CornerPosition.TLB));
+                newPositions.put(CornerPosition.TLB, positions.get(CornerPosition.TRB));
+                newPositions.put(CornerPosition.TRB, positions.get(CornerPosition.TRF));
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.TLF));
+                break;
+            }
+            case F:
+            {
+                newPositions.put(CornerPosition.TLF, positions.get(CornerPosition.DLF));
+                newPositions.put(CornerPosition.DLF, positions.get(CornerPosition.DRF));
+                newPositions.put(CornerPosition.DRF, positions.get(CornerPosition.TRF));
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.TLF));
+                break;
+            }
+            case F_:
+            {
+                newPositions.put(CornerPosition.TLF, positions.get(CornerPosition.TRF));
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.DRF));
+                newPositions.put(CornerPosition.DRF, positions.get(CornerPosition.DLF));
+                newPositions.put(CornerPosition.DLF, positions.get(CornerPosition.TLF));
+                break;
+            }
+            case B:
+            {
+                newPositions.put(CornerPosition.TLB, positions.get(CornerPosition.TRF));
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.DRB));
+                newPositions.put(CornerPosition.DRB, positions.get(CornerPosition.DLB));
+                newPositions.put(CornerPosition.DLB, positions.get(CornerPosition.TLB));
+                break;
+            }
+            case B_:
+            {
+                newPositions.put(CornerPosition.TLB, positions.get(CornerPosition.DLB));
+                newPositions.put(CornerPosition.DLB, positions.get(CornerPosition.DRB));
+                newPositions.put(CornerPosition.DRB, positions.get(CornerPosition.TRF));
+                newPositions.put(CornerPosition.TRF, positions.get(CornerPosition.TLB));
+                break;
+            }
+        }
+        return new Kube2x2State(newPositions);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Kube2x2State that)) return false;
+        return Objects.equals(positions, that.positions);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hashCode(positions);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Kube2x2State{" + "positions=" + positions + '}';
     }
 }
