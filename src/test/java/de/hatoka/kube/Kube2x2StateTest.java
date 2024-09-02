@@ -62,4 +62,25 @@ public class Kube2x2StateTest
         state = state.move(move);
         assertTrue(state.isFinished());
     }
+
+    static Stream<Arguments> counterTurns()
+    {
+        return Stream.of(Arguments.of(Side.RIGHT, Side.LEFT), Arguments.of(Side.UP, Side.DOWN),
+                        Arguments.of(Side.FRONT, Side.BACK));
+    }
+
+    @ParameterizedTest
+    @MethodSource("counterTurns")
+    public void testTurn(Side side1, Side side2)
+    {
+        Kube2x2State state = initialState.turn(side1);
+        assertFalse(state.isFinished());
+        state = state.turn(side2);
+        assertTrue(state.isFinished());
+        // reverse
+        state = initialState.turn(side2);
+        assertFalse(state.isFinished());
+        state = state.turn(side1);
+        assertTrue(state.isFinished());
+    }
 }

@@ -165,6 +165,23 @@ public class Kube2x2State
         return new Kube2x2State(newPositions);
     }
 
+    /**
+     * Turn the cube side clockwise.
+     * @param side to look at the cube
+     * @return state after turning
+     */
+    public Kube2x2State turn(Side side)
+    {
+        return switch(side)
+        {
+            case RIGHT -> move(Kube2x2Move.R).move(Kube2x2Move.L_);
+            case LEFT -> move(Kube2x2Move.L).move(Kube2x2Move.R_);
+            case UP -> move(Kube2x2Move.U).move(Kube2x2Move.D_);
+            case DOWN -> move(Kube2x2Move.D).move(Kube2x2Move.U_);
+            case FRONT -> move(Kube2x2Move.F).move(Kube2x2Move.B_);
+            case BACK -> move(Kube2x2Move.B).move(Kube2x2Move.F_);
+        };
+    }
     @Override
     public boolean equals(Object o)
     {
