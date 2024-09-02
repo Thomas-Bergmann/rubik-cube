@@ -2,6 +2,7 @@ package de.hatoka.kube;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -200,5 +201,20 @@ public class Kube2x2State
     public String toString()
     {
         return "Kube2x2State{" + "positions=" + positions + '}';
+    }
+
+    public Kube2x2State move(Kube2x2Move... moves)
+    {
+        return move(List.of(moves));
+    }
+
+    public Kube2x2State move(List<Kube2x2Move> moves)
+    {
+        Kube2x2State state = this;
+        for (Kube2x2Move move : moves)
+        {
+            state = state.move(move);
+        }
+        return state;
     }
 }

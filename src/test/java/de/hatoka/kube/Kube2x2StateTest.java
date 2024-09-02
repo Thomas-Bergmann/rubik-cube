@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -82,5 +83,18 @@ public class Kube2x2StateTest
         assertFalse(state.isFinished());
         state = state.turn(side1);
         assertTrue(state.isFinished());
+    }
+
+    @Test
+    public void testRotatingEdges()
+    {
+        // turning top right front corner
+        List<Kube2x2Move> moves = Kube2x2Move.fromNotation("RF'R'FRF'R'F");
+        // right upper corner
+        Kube2x2State firstCorner = initialState.move(moves);
+        Kube2x2State secondCorner = firstCorner.move(Kube2x2Move.U_).move(moves);
+        Kube2x2State thirdCorner = secondCorner.move(Kube2x2Move.U_).move(moves);
+        Kube2x2State correctPosition = thirdCorner.move(Kube2x2Move.U_).move(Kube2x2Move.U_);
+        assertFalse(correctPosition.isFinished());
     }
 }
