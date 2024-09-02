@@ -45,8 +45,23 @@ public class Kube2x2State
         return INITIAL.equals(this);
     }
 
-    public Kube2x2State turn(Kube2x2Move move)
+    public Kube2x2State move(Kube2x2Move move)
     {
+        Kube2x2State doubleResult = switch(move)
+        {
+            case L2 -> move(Kube2x2Move.L).move(Kube2x2Move.L);
+            case R2 -> move(Kube2x2Move.R).move(Kube2x2Move.R);
+            case F2 -> move(Kube2x2Move.F).move(Kube2x2Move.F);
+            case U2 -> move(Kube2x2Move.U).move(Kube2x2Move.U);
+            case D2 -> move(Kube2x2Move.D).move(Kube2x2Move.D);
+            case B2 -> move(Kube2x2Move.B).move(Kube2x2Move.B);
+            default -> null;
+        };
+        if (doubleResult != null)
+        {
+            return doubleResult;
+        }
+
         Map<CornerPosition, CornerState> newPositions = new HashMap<>(positions);
         switch(move)
         {
