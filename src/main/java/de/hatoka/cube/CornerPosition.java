@@ -2,6 +2,6 @@ package de.hatoka.cube;
 
 public enum CornerPosition
 {
-    TLF, TLB, TRF, TRB,
+    TLF, TLB, TRB, TRF,
     DRF, DRB, DLB, DLF;
 }

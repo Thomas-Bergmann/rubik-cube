@@ -42,9 +42,21 @@ public class State2x2
         this.orientations = orientations;
     }
 
+    /**
+     * @return true if the cube is in the solved state
+     */
     public boolean isFinished()
     {
         return INITIAL.equals(this);
+    }
+
+    /**
+     * @param position corner position
+     * @return true if the corner is solved
+     */
+    public boolean isFinished(CornerPosition position)
+    {
+        return getColors(position).equals(INITIAL.getColors(position));
     }
 
     public State2x2 move(Move2x2 move)
@@ -295,6 +307,10 @@ public class State2x2
         return (index + orientation) % 3;
     }
 
+    /**
+     * @param position corner position
+     * @return list of colors of the corner stone (started at top or bottom and then clockwise)
+     */
     public List<Color> getColors(CornerPosition position)
     {
         int index = position.ordinal();

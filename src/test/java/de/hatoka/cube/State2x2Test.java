@@ -26,6 +26,10 @@ public class State2x2Test
         assertEquals(Color.WHITE, initialState.getCornerColors().get(0));
         assertEquals(Color.RED, initialState.getCornerColors().get(1));
         assertEquals(Color.GREEN, initialState.getCornerColors().get(2));
+        for(CornerPosition position : CornerPosition.values())
+        {
+            assertTrue(initialState.isFinished(position), "Position " + position);
+        }
     }
 
     @Test
@@ -38,34 +42,45 @@ public class State2x2Test
         assertEquals(Color.GREEN, turned.getCornerColors().get(0));
         assertEquals(Color.RED, turned.getCornerColors().get(1));
         assertEquals(Color.YELLOW, turned.getCornerColors().get(2));
+        assertFalse(turned.isFinished(CornerPosition.TLF));
         // top left back corner (still correct)
         assertEquals(Color.WHITE, turned.getCornerColors().get(3));
         assertEquals(Color.GREEN, turned.getCornerColors().get(4));
         assertEquals(Color.ORANGE, turned.getCornerColors().get(5));
+        assertTrue(turned.isFinished(CornerPosition.TLB));
         // top right back corner
         assertEquals(Color.WHITE, turned.getCornerColors().get(6));
         assertEquals(Color.ORANGE, turned.getCornerColors().get(7));
         assertEquals(Color.BLUE, turned.getCornerColors().get(8));
+        assertEquals(Color.WHITE, turned.getColors(CornerPosition.TRB).get(0));
+        assertEquals(Color.ORANGE, turned.getColors(CornerPosition.TRB).get(1));
+        assertEquals(Color.BLUE, turned.getColors(CornerPosition.TRB).get(2));
+        assertTrue(turned.isFinished(CornerPosition.TRB));
         // top right front corner
         assertEquals(Color.GREEN, turned.getCornerColors().get(9));
         assertEquals(Color.WHITE, turned.getCornerColors().get(10));
         assertEquals(Color.RED, turned.getCornerColors().get(11));
+        assertFalse(turned.isFinished(CornerPosition.TRF));
         // bottom right front corner
         assertEquals(Color.BLUE, turned.getCornerColors().get(12));
         assertEquals(Color.RED, turned.getCornerColors().get(13));
         assertEquals(Color.WHITE, turned.getCornerColors().get(14));
+        assertFalse(turned.isFinished(CornerPosition.DRF));
         // bottom right back corner
         assertEquals(Color.YELLOW, turned.getCornerColors().get(15));
         assertEquals(Color.BLUE, turned.getCornerColors().get(16));
         assertEquals(Color.ORANGE, turned.getCornerColors().get(17));
+        assertTrue(turned.isFinished(CornerPosition.DRB));
         // bottom left back corner
         assertEquals(Color.YELLOW, turned.getCornerColors().get(18));
         assertEquals(Color.ORANGE, turned.getCornerColors().get(19));
         assertEquals(Color.GREEN, turned.getCornerColors().get(20));
+        assertTrue(turned.isFinished(CornerPosition.DLB));
         // bottom left front corner
         assertEquals(Color.BLUE, turned.getCornerColors().get(21));
         assertEquals(Color.YELLOW, turned.getCornerColors().get(22));
         assertEquals(Color.RED, turned.getCornerColors().get(23));
+        assertFalse(turned.isFinished(CornerPosition.DLF));
 
         assertEquals(initialState.getCornerColors(), turned.move(move2).getCornerColors());
         assertEquals(initialState, turned.move(move2));
