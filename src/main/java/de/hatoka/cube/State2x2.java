@@ -218,7 +218,15 @@ public class State2x2
     public State2x2 rotateLeftCounterClockwise()
     {
         int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        newCornerIndices[0] = cornerIndices[7];
+        newCornerIndices[7] = cornerIndices[6];
+        newCornerIndices[6] = cornerIndices[1];
+        newCornerIndices[1] = cornerIndices[0];
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        newOrientations[0] = orientations[7] + 2;
+        newOrientations[7] = orientations[6] + 1;
+        newOrientations[6] = orientations[1] + 2;
+        newOrientations[1] = orientations[0] + 1;
         return new State2x2(newCornerIndices, newOrientations);
     }
 
