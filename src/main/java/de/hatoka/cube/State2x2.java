@@ -86,42 +86,58 @@ public class State2x2
 
     private State2x2 rotateBackCounterClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateBackClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateUpCounterClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateUpClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateDownCounterClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateDownClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateRightCounterClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     private State2x2 rotateRightClockwise()
     {
-        return null;
+        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
+        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
+        return new State2x2(newCornerIndices, newOrientations);
     }
 
     /**
@@ -181,21 +197,16 @@ public class State2x2
      */
     public State2x2 rotateLeftClockwise()
     {
-        // Update the corner indices (just swapping references)
         int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        newCornerIndices[0] = cornerIndices[4];
-        newCornerIndices[4] = cornerIndices[5];
-        newCornerIndices[5] = cornerIndices[1];
-        newCornerIndices[1] = cornerIndices[0];
-
-        // Update the orientations
+        newCornerIndices[0] = cornerIndices[1];
+        newCornerIndices[1] = cornerIndices[6];
+        newCornerIndices[6] = cornerIndices[7];
+        newCornerIndices[7] = cornerIndices[0];
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        newOrientations[0] += 1;
-        newOrientations[4] += 1;
-        newOrientations[5] += 1;
+        newOrientations[0] += 2;
         newOrientations[1] += 1;
-
-        // Return a new Cube2x2State with the updated state
+        newOrientations[6] += 2;
+        newOrientations[7] += 1;
         return new State2x2(newCornerIndices, newOrientations);
     }
 
@@ -206,21 +217,8 @@ public class State2x2
      */
     public State2x2 rotateLeftCounterClockwise()
     {
-        // Update the corner indices (just swapping references)
         int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        newCornerIndices[0] = cornerIndices[3];
-        newCornerIndices[3] = cornerIndices[4];
-        newCornerIndices[4] = cornerIndices[7];
-        newCornerIndices[7] = cornerIndices[0];
-
-        // Update the orientations
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        newOrientations[0] += 2;
-        newOrientations[3] += 1;
-        newOrientations[4] += 2;
-        newOrientations[7] += 1;
-
-        // Return a new Cube2x2State with the updated state
         return new State2x2(newCornerIndices, newOrientations);
     }
 

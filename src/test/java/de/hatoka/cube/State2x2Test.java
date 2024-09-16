@@ -33,11 +33,9 @@ public class State2x2Test
     }
 
     @Test
-    public void isCounterMoveFront()
+    public void testMoveFront()
     {
-        Move2x2 move = Move2x2.F;
-        Move2x2 move2 = Move2x2.F_;
-        State2x2 turned = initialState.move(move);
+        State2x2 turned = initialState.move(Move2x2.F);
         // top left front corner
         assertEquals(Color.GREEN, turned.getCornerColors().get(0));
         assertEquals(Color.RED, turned.getCornerColors().get(1));
@@ -81,9 +79,36 @@ public class State2x2Test
         assertEquals(Color.YELLOW, turned.getCornerColors().get(22));
         assertEquals(Color.RED, turned.getCornerColors().get(23));
         assertFalse(turned.isFinished(CornerPosition.DLF));
+    }
 
-        assertEquals(initialState.getCornerColors(), turned.move(move2).getCornerColors());
-        assertEquals(initialState, turned.move(move2));
+
+    @Test
+    public void isMoveLeft()
+    {
+        State2x2 turned = initialState.move(Move2x2.L);
+        assertTrue(turned.isFinished(CornerPosition.TRB));
+        assertTrue(turned.isFinished(CornerPosition.TRF));
+        assertTrue(turned.isFinished(CornerPosition.DRF));
+        assertTrue(turned.isFinished(CornerPosition.DRB));
+
+        assertFalse(turned.isFinished(CornerPosition.TLF));
+        assertEquals(Color.ORANGE, turned.getColors(CornerPosition.TLF).get(0));
+        assertEquals(Color.WHITE, turned.getColors(CornerPosition.TLF).get(1));
+        assertEquals(Color.GREEN, turned.getColors(CornerPosition.TLF).get(2));
+
+        assertFalse(turned.isFinished(CornerPosition.TLB));
+        assertEquals(Color.ORANGE, turned.getColors(CornerPosition.TLB).get(0));
+        assertEquals(Color.GREEN, turned.getColors(CornerPosition.TLB).get(1));
+        assertEquals(Color.YELLOW, turned.getColors(CornerPosition.TLB).get(2));
+        assertFalse(turned.isFinished(CornerPosition.DLB));
+        assertEquals(Color.RED, turned.getColors(CornerPosition.DLB).get(0));
+        assertEquals(Color.YELLOW, turned.getColors(CornerPosition.DLB).get(1));
+        assertEquals(Color.GREEN, turned.getColors(CornerPosition.DLB).get(2));
+        assertFalse(turned.isFinished(CornerPosition.DLF));
+        assertEquals(Color.RED, turned.getColors(CornerPosition.DLF).get(0));
+        assertEquals(Color.GREEN, turned.getColors(CornerPosition.DLF).get(1));
+        assertEquals(Color.WHITE, turned.getColors(CornerPosition.DLF).get(2));
+
     }
 
     static Stream<Arguments> counterMoves()
