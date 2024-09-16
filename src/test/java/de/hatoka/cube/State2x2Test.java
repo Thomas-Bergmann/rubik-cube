@@ -35,7 +35,8 @@ public class State2x2Test
     @Test
     public void testMoveFront()
     {
-        State2x2 turned = initialState.move(Move2x2.F);
+        Move2x2 move = Move2x2.F;
+        State2x2 turned = initialState.move(move);
         // top left front corner
         assertEquals(Color.GREEN, turned.getCornerColors().get(0));
         assertEquals(Color.RED, turned.getCornerColors().get(1));
@@ -79,13 +80,17 @@ public class State2x2Test
         assertEquals(Color.YELLOW, turned.getCornerColors().get(22));
         assertEquals(Color.RED, turned.getCornerColors().get(23));
         assertFalse(turned.isFinished(CornerPosition.DLF));
+
+        State2x2 turned4 = initialState.move(move).move(move).move(move).move(move);
+        assertTrue(turned4.isFinished());
     }
 
 
     @Test
     public void isMoveLeft()
     {
-        State2x2 turned = initialState.move(Move2x2.L);
+        Move2x2 move = Move2x2.L;
+        State2x2 turned = initialState.move(move);
         assertTrue(turned.isFinished(CornerPosition.TRB));
         assertTrue(turned.isFinished(CornerPosition.TRF));
         assertTrue(turned.isFinished(CornerPosition.DRF));
@@ -109,6 +114,8 @@ public class State2x2Test
         assertEquals(Color.GREEN, turned.getColors(CornerPosition.DLF).get(1));
         assertEquals(Color.WHITE, turned.getColors(CornerPosition.DLF).get(2));
 
+        State2x2 turned4 = initialState.move(move).move(move).move(move).move(move);
+        assertTrue(turned4.isFinished());
     }
 
     static Stream<Arguments> counterMoves()

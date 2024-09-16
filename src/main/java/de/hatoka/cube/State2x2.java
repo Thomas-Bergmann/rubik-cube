@@ -156,10 +156,10 @@ public class State2x2
 
         // Update the orientations
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        newOrientations[0] += 1;
-        newOrientations[3] += 2;  // Equivalent to rotating counterclockwise
-        newOrientations[4] += 1;
-        newOrientations[7] += 2;
+        newOrientations[0] = orientations[7] + 1;
+        newOrientations[3] = orientations[4] + 2;
+        newOrientations[4] = orientations[3] + 1;
+        newOrientations[7] = orientations[0] + 2;
 
         // Return a new Cube2x2State with the updated state
         return new State2x2(newCornerIndices, newOrientations);
@@ -181,10 +181,10 @@ public class State2x2
 
         // Update the orientations
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        newOrientations[0] += 2;
-        newOrientations[3] += 1;
-        newOrientations[4] += 2;
-        newOrientations[7] += 1;
+        newOrientations[0] = orientations[3] + 2;
+        newOrientations[3] = orientations[4] + 1;
+        newOrientations[4] = orientations[7] + 2;
+        newOrientations[7] = orientations[0] + 1;
 
         // Return a new Cube2x2State with the updated state
         return new State2x2(newCornerIndices, newOrientations);
@@ -203,10 +203,10 @@ public class State2x2
         newCornerIndices[6] = cornerIndices[7];
         newCornerIndices[7] = cornerIndices[0];
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        newOrientations[0] += 2;
-        newOrientations[1] += 1;
-        newOrientations[6] += 2;
-        newOrientations[7] += 1;
+        newOrientations[0] = orientations[1] + 2;
+        newOrientations[1] = orientations[6] + 1;
+        newOrientations[6] = orientations[7] + 2;
+        newOrientations[7] = orientations[0] + 1;
         return new State2x2(newCornerIndices, newOrientations);
     }
 
