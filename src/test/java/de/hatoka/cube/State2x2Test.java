@@ -37,9 +37,10 @@ public class State2x2Test
     {
         Move2x2 move = Move2x2.F;
         State2x2 turned = initialState.move(move);
+        // back is still correct
         assertTrue(turned.isFinished(CornerPosition.TRB));
-        assertTrue(turned.isFinished(CornerPosition.TRF));
-        assertTrue(turned.isFinished(CornerPosition.DRF));
+        assertTrue(turned.isFinished(CornerPosition.TLB));
+        assertTrue(turned.isFinished(CornerPosition.DLB));
         assertTrue(turned.isFinished(CornerPosition.DRB));
 
         // top left front corner
