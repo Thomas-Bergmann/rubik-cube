@@ -63,8 +63,8 @@ public class State2x2
     {
         return switch(move)
         {
-            case L -> rotateLeftClockwise();
-            case L_ -> rotateLeftCounterClockwise();
+            case L -> rotate(1, 6, 7, 0);
+            case L_ -> rotate(1, 0, 7, 6);
             case R -> rotateRightClockwise();
             case R_ -> rotateRightCounterClockwise();
             case D -> rotateDownClockwise();
@@ -73,8 +73,8 @@ public class State2x2
             case U_ -> rotateUpCounterClockwise();
             case B -> rotateBackClockwise();
             case B_ -> rotateBackCounterClockwise();
-            case F -> rotateFrontClockwise();
-            case F_ -> rotateFrontCounterClockwise();
+            case F -> rotate(0, 7, 4, 3);
+            case F_ -> rotate(0, 3, 4, 7);
             case L2 -> move(Move2x2.L).move(Move2x2.L);
             case R2 -> move(Move2x2.R).move(Move2x2.R);
             case F2 -> move(Move2x2.F).move(Move2x2.F);
@@ -156,6 +156,11 @@ public class State2x2
         return newCornerIndices;
     }
 
+    /**
+     * Update the orientations of the corners after rotation
+     * @param rotatedCornerIndices
+     * @return
+     */
     private int[] rotateOrientations(int... rotatedCornerIndices)
     {
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
@@ -166,51 +171,10 @@ public class State2x2
         return newOrientations;
     }
 
-    /**
-     * Rotate the front face (clockwise) and return a new RubiksCube2x2 instance
-     *
-     * @return new cube state
-     */
-    public State2x2 rotateFrontClockwise()
+    private State2x2 rotate(int... rotatedCornerIndices)
     {
-        int[] newCornerIndices = rotateIndices(0, 7, 4, 3);
-        int[] newOrientations = rotateOrientations(0, 7, 4, 3);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    /**
-     * Rotate the front face (counter-clockwise) and return a new cube instance
-     *
-     * @return new cube state
-     */
-    public State2x2 rotateFrontCounterClockwise()
-    {
-        int[] newCornerIndices = rotateIndices(0, 3, 4, 7);
-        int[] newOrientations = rotateOrientations(0, 3, 4, 7);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    /**
-     * Rotate the front face (clockwise) and return a new RubiksCube2x2 instance
-     *
-     * @return new cube state
-     */
-    public State2x2 rotateLeftClockwise()
-    {
-        int[] newCornerIndices = rotateIndices(1, 6, 7, 0);
-        int[] newOrientations = rotateOrientations(1, 6, 7, 0);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    /**
-     * Rotate the front face (counter-clockwise) and return a new cube instance
-     *
-     * @return new cube state
-     */
-    public State2x2 rotateLeftCounterClockwise()
-    {
-        int[] newCornerIndices = rotateIndices(1, 0, 7, 6);
-        int[] newOrientations = rotateOrientations(1, 0, 7, 6);
+        int[] newCornerIndices = rotateIndices(rotatedCornerIndices);
+        int[] newOrientations = rotateOrientations(rotatedCornerIndices);
         return new State2x2(newCornerIndices, newOrientations);
     }
 

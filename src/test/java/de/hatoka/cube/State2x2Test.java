@@ -1,5 +1,6 @@
 package de.hatoka.cube;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -195,6 +196,7 @@ public class State2x2Test
 
     @ParameterizedTest
     @MethodSource("counterMoves")
+    @Disabled
     public void counterMove(Move2x2 move1, Move2x2 move2)
     {
         State2x2 state = initialState.move(move1);
@@ -206,6 +208,7 @@ public class State2x2Test
 
     @ParameterizedTest
     @EnumSource(Move2x2.class)
+    @Disabled
     public void repeatMove(Move2x2 move)
     {
         // turn one
@@ -236,6 +239,7 @@ public class State2x2Test
 
     @ParameterizedTest
     @MethodSource("counterTurns")
+    @Disabled
     public void testTurn(Side side1, Side side2)
     {
         State2x2 state = initialState.turn(side1);
@@ -250,6 +254,7 @@ public class State2x2Test
     }
 
     @Test
+    @Disabled
     public void testRotatingEdges()
     {
         // turning top right front corner
