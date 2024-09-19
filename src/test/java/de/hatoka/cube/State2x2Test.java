@@ -187,6 +187,40 @@ public class State2x2Test
         assertTrue(turned4.isFinished());
     }
 
+    @Test
+    public void testMoveRight()
+    {
+        Move2x2 move = Move2x2.R;
+        State2x2 turned = initialState.move(move);
+        assertTrue(turned.isFinished(CornerPosition.TLB));
+        assertTrue(turned.isFinished(CornerPosition.TLF));
+        assertTrue(turned.isFinished(CornerPosition.DLF));
+        assertTrue(turned.isFinished(CornerPosition.DLB));
+
+        assertFalse(turned.isFinished(CornerPosition.TRF));
+        assertEquals(Color.RED, turned.getColors(CornerPosition.TRF).get(0));
+        assertEquals(Color.BLUE, turned.getColors(CornerPosition.TRF).get(1));
+        assertEquals(Color.YELLOW, turned.getColors(CornerPosition.TRF).get(2));
+
+        assertFalse(turned.isFinished(CornerPosition.TRB));
+        assertEquals(Color.RED, turned.getColors(CornerPosition.TRB).get(0));
+        assertEquals(Color.WHITE, turned.getColors(CornerPosition.TRB).get(1));
+        assertEquals(Color.BLUE, turned.getColors(CornerPosition.TRB).get(2));
+
+        assertFalse(turned.isFinished(CornerPosition.DRB));
+        assertEquals(Color.ORANGE, turned.getColors(CornerPosition.DRB).get(0));
+        assertEquals(Color.BLUE, turned.getColors(CornerPosition.DRB).get(1));
+        assertEquals(Color.WHITE, turned.getColors(CornerPosition.DRB).get(2));
+
+        assertFalse(turned.isFinished(CornerPosition.DRF));
+        assertEquals(Color.ORANGE, turned.getColors(CornerPosition.DRF).get(0));
+        assertEquals(Color.YELLOW, turned.getColors(CornerPosition.DRF).get(1));
+        assertEquals(Color.BLUE, turned.getColors(CornerPosition.DRF).get(2));
+
+        State2x2 turned4 = initialState.move(move).move(move).move(move).move(move);
+        assertTrue(turned4.isFinished());
+    }
+
     static Stream<Arguments> counterMoves()
     {
         return Stream.of(Arguments.of(Move2x2.L, Move2x2.L_), Arguments.of(Move2x2.R, Move2x2.R_),

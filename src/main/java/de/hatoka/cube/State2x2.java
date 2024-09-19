@@ -65,7 +65,7 @@ public class State2x2
         {
             case L -> rotate(CornerPosition.TLB, CornerPosition.DLB, CornerPosition.DLF, CornerPosition.TLF);
             case L_ -> rotate(CornerPosition.TLB, CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DLB);
-            case R -> rotateRightClockwise();
+            case R -> rotate(CornerPosition.TRF, CornerPosition.DRF, CornerPosition.DRB, CornerPosition.TRB);
             case R_ -> rotateRightCounterClockwise();
             case D -> rotateDownClockwise();
             case D_ -> rotateDownCounterClockwise();
@@ -127,13 +127,6 @@ public class State2x2
     }
 
     private State2x2 rotateRightCounterClockwise()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    private State2x2 rotateRightClockwise()
     {
         int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
