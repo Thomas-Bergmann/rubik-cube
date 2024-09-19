@@ -63,8 +63,8 @@ public class State2x2
     {
         return switch(move)
         {
-            case L -> rotate(1, 6, 7, 0);
-            case L_ -> rotate(1, 0, 7, 6);
+            case L -> rotate(CornerPosition.TLB, CornerPosition.DLB, CornerPosition.DLF, CornerPosition.TLF);
+            case L_ -> rotate(CornerPosition.TLB, CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DLB);
             case R -> rotateRightClockwise();
             case R_ -> rotateRightCounterClockwise();
             case D -> rotateDownClockwise();
@@ -73,8 +73,8 @@ public class State2x2
             case U_ -> rotateUpCounterClockwise();
             case B -> rotateBackClockwise();
             case B_ -> rotateBackCounterClockwise();
-            case F -> rotate(0, 7, 4, 3);
-            case F_ -> rotate(0, 3, 4, 7);
+            case F -> rotate(CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DRF, CornerPosition.TRF);
+            case F_ -> rotate(CornerPosition.TLF, CornerPosition.TRF, CornerPosition.DRF, CornerPosition.DLF);
             case L2 -> move(Move2x2.L).move(Move2x2.L);
             case R2 -> move(Move2x2.R).move(Move2x2.R);
             case F2 -> move(Move2x2.F).move(Move2x2.F);
@@ -176,6 +176,16 @@ public class State2x2
         int[] newCornerIndices = rotateIndices(rotatedCornerIndices);
         int[] newOrientations = rotateOrientations(rotatedCornerIndices);
         return new State2x2(newCornerIndices, newOrientations);
+    }
+
+    private State2x2 rotate(CornerPosition... positions)
+    {
+        int[] rotatedCornerIndices = new int[positions.length];
+        for (int i = 0; i < positions.length; i++)
+        {
+            rotatedCornerIndices[i] = positions[i].ordinal();
+        }
+        return rotate(rotatedCornerIndices);
     }
 
     /**
