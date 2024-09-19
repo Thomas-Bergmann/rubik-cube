@@ -67,12 +67,12 @@ public class State2x2
             case L_ -> rotate(CornerPosition.TLB, CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DLB);
             case R -> rotate(CornerPosition.TRF, CornerPosition.DRF, CornerPosition.DRB, CornerPosition.TRB);
             case R_ -> rotate(CornerPosition.TRF, CornerPosition.TRB, CornerPosition.DRB, CornerPosition.DRF);
-            case D -> rotateDownClockwise();
-            case D_ -> rotateDownCounterClockwise();
-            case U -> rotateUpClockwise();
-            case U_ -> rotateUpCounterClockwise();
-            case B -> rotateBackClockwise();
-            case B_ -> rotateBackCounterClockwise();
+            case D -> rotateHorizontal(CornerPosition.DRF, CornerPosition.DLF, CornerPosition.DLB, CornerPosition.DRB);
+            case D_ -> rotateOpen();
+            case U -> rotateOpen();
+            case U_ -> rotateOpen();
+            case B -> rotateOpen();
+            case B_ -> rotateOpen();
             case F -> rotate(CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DRF, CornerPosition.TRF);
             case F_ -> rotate(CornerPosition.TLF, CornerPosition.TRF, CornerPosition.DRF, CornerPosition.DLF);
             case L2 -> move(Move2x2.L).move(Move2x2.L);
@@ -84,46 +84,18 @@ public class State2x2
         };
     }
 
-    private State2x2 rotateBackCounterClockwise()
+    private State2x2 rotateOpen()
     {
         int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
         int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
         return new State2x2(newCornerIndices, newOrientations);
     }
 
-    private State2x2 rotateBackClockwise()
+    private State2x2 rotateHorizontal(CornerPosition... positions)
     {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    private State2x2 rotateUpCounterClockwise()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    private State2x2 rotateUpClockwise()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    private State2x2 rotateDownCounterClockwise()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
-    private State2x2 rotateDownClockwise()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
+        int[] rotatedCornerIndices = calculateCornerIndices(positions);
+        int[] newCornerIndices = rotateIndices(rotatedCornerIndices);
+        return new State2x2(newCornerIndices, orientations);
     }
 
     /**
@@ -176,12 +148,17 @@ public class State2x2
      */
     private State2x2 rotate(CornerPosition... positions)
     {
+        return rotate(calculateCornerIndices(positions));
+    }
+
+    private static int[] calculateCornerIndices(CornerPosition[] positions)
+    {
         int[] rotatedCornerIndices = new int[positions.length];
         for (int i = 0; i < positions.length; i++)
         {
             rotatedCornerIndices[i] = positions[i].ordinal();
         }
-        return rotate(rotatedCornerIndices);
+        return rotatedCornerIndices;
     }
 
     /**
