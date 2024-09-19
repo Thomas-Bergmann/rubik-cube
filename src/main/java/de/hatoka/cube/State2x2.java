@@ -66,7 +66,7 @@ public class State2x2
             case L -> rotate(CornerPosition.TLB, CornerPosition.DLB, CornerPosition.DLF, CornerPosition.TLF);
             case L_ -> rotate(CornerPosition.TLB, CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DLB);
             case R -> rotate(CornerPosition.TRF, CornerPosition.DRF, CornerPosition.DRB, CornerPosition.TRB);
-            case R_ -> rotateRightCounterClockwise();
+            case R_ -> rotate(CornerPosition.TRF, CornerPosition.TRB, CornerPosition.DRB, CornerPosition.DRF);
             case D -> rotateDownClockwise();
             case D_ -> rotateDownCounterClockwise();
             case U -> rotateUpClockwise();
@@ -126,13 +126,6 @@ public class State2x2
         return new State2x2(newCornerIndices, newOrientations);
     }
 
-    private State2x2 rotateRightCounterClockwise()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
     /**
      * Swap the corner indices for rotation
      * @param rotatedCornerIndices indices of corners to rotate
@@ -151,8 +144,8 @@ public class State2x2
 
     /**
      * Update the orientations of the corners after rotation
-     * @param rotatedCornerIndices
-     * @return
+     * @param rotatedCornerIndices indices of corners to rotate
+     * @return new orientations
      */
     private int[] rotateOrientations(int... rotatedCornerIndices)
     {
@@ -164,6 +157,11 @@ public class State2x2
         return newOrientations;
     }
 
+    /**
+     * rotate corner indices and update orientation
+     * @param rotatedCornerIndices indices of corners to rotate
+     * @return new cube state
+     */
     private State2x2 rotate(int... rotatedCornerIndices)
     {
         int[] newCornerIndices = rotateIndices(rotatedCornerIndices);
@@ -171,6 +169,11 @@ public class State2x2
         return new State2x2(newCornerIndices, newOrientations);
     }
 
+    /**
+     * rotate corner indices and update orientation
+     * @param positions corners to rotate
+     * @return new cube state
+     */
     private State2x2 rotate(CornerPosition... positions)
     {
         int[] rotatedCornerIndices = new int[positions.length];
