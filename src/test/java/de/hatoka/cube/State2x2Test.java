@@ -16,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class State2x2Test
 {
-    State2x2 initialState = State2x2.INITIAL;
+    private static final List<Move2x2> ROTATE_RIGHT_FRONT_CORNER = Move2x2.fromNotation("RF'R'FRF'R'F");
+    private static final State2x2 initialState = State2x2.INITIAL;
 
     @Test
     public void isFinished()
@@ -331,16 +332,31 @@ public class State2x2Test
         assertTrue(state.isFinished());
     }
 
+    /**
+     * Test rotating corners to the same side 3 corners - 3 times
+     */
     @Test
     public void testRotatingEdges()
     {
-        // turning top right front corner
-        List<Move2x2> moves = Move2x2.fromNotation("RF'R'FRF'R'F");
-        // right upper corner
-        State2x2 firstCorner = initialState.move(moves);
-        State2x2 secondCorner = firstCorner.move(Move2x2.U_).move(moves);
-        State2x2 thirdCorner = secondCorner.move(Move2x2.U_).move(moves);
-        State2x2 correctPosition = thirdCorner.move(Move2x2.U_).move(Move2x2.U_);
-        assertFalse(correctPosition.isFinished());
+        State2x2 firstRotation = rotateThreeCorners(initialState);
+        assertFalse(firstRotation.isFinished());
+        State2x2 secondRotation = rotateThreeCorners(firstRotation);
+        assertFalse(secondRotation.isFinished());
+        State2x2 thirdRotation = rotateThreeCorners(secondRotation);
+        assertTrue(thirdRotation.isFinished());
+    }
+
+    /**
+     * turning top right front corner with three corners, so position is correct after 3 turns
+     * @param state state of cube before turning
+     * @return state of cube after turning
+     */
+    private State2x2 rotateThreeCorners(State2x2 state)
+    {
+        State2x2 firstCorner = state.move(ROTATE_RIGHT_FRONT_CORNER);
+        State2x2 secondCorner = firstCorner.move(Move2x2.U_).move(ROTATE_RIGHT_FRONT_CORNER);
+        State2x2 thirdCorner = secondCorner.move(Move2x2.U_).move(ROTATE_RIGHT_FRONT_CORNER);
+        State2x2 correctPosition = thirdCorner.move(Move2x2.U2);
+        return correctPosition;
     }
 }
