@@ -72,7 +72,7 @@ public class State2x2
             case U -> rotateHorizontal(CornerPosition.TLF, CornerPosition.TRF, CornerPosition.TRB, CornerPosition.TLB);
             case U_ -> rotateHorizontal(CornerPosition.TLF, CornerPosition.TLB, CornerPosition.TRB, CornerPosition.TRF);
             case B -> rotate(CornerPosition.TRB, CornerPosition.DRB, CornerPosition.DLB, CornerPosition.TLB);
-            case B_ -> rotateOpen();
+            case B_ -> rotate(CornerPosition.TRB, CornerPosition.TLB, CornerPosition.DLB, CornerPosition.DRB);
             case F -> rotate(CornerPosition.TLF, CornerPosition.DLF, CornerPosition.DRF, CornerPosition.TRF);
             case F_ -> rotate(CornerPosition.TLF, CornerPosition.TRF, CornerPosition.DRF, CornerPosition.DLF);
             case L2 -> move(Move2x2.L).move(Move2x2.L);
