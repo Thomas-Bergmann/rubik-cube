@@ -1,4 +1,4 @@
-package de.hatoka.kube;
+package de.hatoka.cube;
 
 public enum Step
 {
