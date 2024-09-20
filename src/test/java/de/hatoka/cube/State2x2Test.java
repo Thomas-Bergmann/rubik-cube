@@ -223,6 +223,25 @@ public class State2x2Test
         assertTrue(turned4.isFinished());
     }
 
+    @Test
+    public void testMoveBack()
+    {
+        Move2x2 move = Move2x2.B;
+        State2x2 turned = initialState.move(move);
+        assertTrue(turned.isFinished(CornerPosition.TLF));
+        assertTrue(turned.isFinished(CornerPosition.TRF));
+        assertTrue(turned.isFinished(CornerPosition.DLF));
+        assertTrue(turned.isFinished(CornerPosition.DRF));
+
+        assertCorner(turned, CornerPosition.TLB, Color.BLUE, Color.WHITE, Color.ORANGE);
+        assertCorner(turned, CornerPosition.TRB, Color.BLUE, Color.ORANGE, Color.YELLOW);
+        assertCorner(turned, CornerPosition.DLB, Color.GREEN, Color.ORANGE, Color.WHITE);
+        assertCorner(turned, CornerPosition.DRB, Color.GREEN, Color.YELLOW, Color.ORANGE);
+
+        State2x2 turned4 = initialState.move(move).move(move).move(move).move(move);
+        assertTrue(turned4.isFinished());
+    }
+
     private void assertCorner(State2x2 state, CornerPosition position, Color... colors)
     {
         assertFalse(state.isFinished(position));
