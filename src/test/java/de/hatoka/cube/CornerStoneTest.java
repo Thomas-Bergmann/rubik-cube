@@ -9,7 +9,7 @@ public class CornerStoneTest
     @Test
     public void testFromNotation()
     {
-        CornerStone result = CornerStone.fromNotation("RGB");
-        assertEquals(Color.RED, result.getColor(0));
+        CornerStone result = CornerStone.WOB;
+        assertEquals(Color.WHITE, result.getColor(0));
     }
 }

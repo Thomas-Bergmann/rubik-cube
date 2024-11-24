@@ -97,13 +97,15 @@ signing {
     sign(publishing.publications["hatokaMvn"])
 }
 
-val logbackVersion = "1.4.14"
-val slf4jVersion = "2.0.9"
-val junitVersion = "5.10.0"
-val junitPlatformVersion = "1.10.2"
+val logbackVersion = "1.5.12"
+val slf4jVersion = "2.0.16"
+val junitVersion = "5.11.3"
+val junitPlatformVersion = "1.11.3"
 
 dependencies {
     implementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    implementation("de.hatoka.neuralnetwork:neuralnetwork:2.0.0")
+
     runtimeOnly("ch.qos.logback:logback-classic:${logbackVersion}")
     runtimeOnly("ch.qos.logback:logback-core:${logbackVersion}")
 

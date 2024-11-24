@@ -11,22 +11,11 @@ import java.util.Objects;
 public class State2x2
 {
     public static final State2x2 INITIAL = initial();
-    // Immutable corner stones representing the eight corners of the cube
-    private static final CornerStone[] cornerStones = new CornerStone[] { CornerStone.fromNotation("WRG"),
-                    // Top-front-left
-                    CornerStone.fromNotation("WGO"), // Top-back-left
-                    CornerStone.fromNotation("WOB"), // Top-back-right
-                    CornerStone.fromNotation("WBR"), // Top-front-right
-                    CornerStone.fromNotation("YRB"), // Bottom-front-right
-                    CornerStone.fromNotation("YBO"), // Bottom-back-right
-                    CornerStone.fromNotation("YOG"), // Bottom-back-left
-                    CornerStone.fromNotation("YGR")  // Bottom-front-left
-    };
 
     private static State2x2 initial()
     {
         // The solved state: corners are in their default positions with orientation 0
-        int[] cornerIndices = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };  // Indices point to corner stones
+        int[] cornerIndices = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };  // Indices point to cornerstones
         int[] orientations = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };   // All orientations are 0 (solved)
         return new State2x2(cornerIndices, orientations);
     }
@@ -245,7 +234,7 @@ public class State2x2
 
     /**
      * @param position corner position
-     * @return list of colors of the corner stone (started at top or bottom and then clockwise)
+     * @return list of colors of the cornerstone (started at top or bottom and then clockwise)
      */
     public List<Color> getColors(CornerPosition position)
     {
@@ -253,8 +242,33 @@ public class State2x2
         List<Color> colors = new ArrayList<>();
         for (int j = 0; j < 3; j++)
         {
-            colors.add(cornerStones[cornerIndices[index]].getColor(getCornerPosition(orientations[index], j)));
+            colors.add(CornerStone.fromOrdinal(cornerIndices[index]).getColor(getCornerPosition(orientations[index], j)));
         }
         return colors;
+    }
+
+    /**
+     * @return the position of the given cornerstone
+     */
+    public CornerPosition getCornerPosition(CornerStone stone)
+    {
+        for (int i = 0; i < cornerIndices.length; i++)
+        {
+            if (cornerIndices[i] == stone.ordinal())
+            {
+                return CornerPosition.values()[i];
+            }
+        }
+        throw new IllegalArgumentException("Stone not found: " + stone);
+    }
+
+    /**
+     * @param stone cornerstone
+     * @return rotation of the given cornerstone
+     */
+    public int getRotation(CornerStone stone)
+    {
+        CornerPosition cornerPosition = getCornerPosition(stone);
+        return orientations[cornerPosition.ordinal()];
     }
 }

@@ -2,6 +2,8 @@ package de.hatoka.cube.solver;
 
 import de.hatoka.cube.Move2x2;
 import de.hatoka.cube.State2x2;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -13,6 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class NeuronalSolver2x2Test
 {
     private static final Solver2x2 SOLVER = new NeuronalSolver2x2();
+
+    @Test
+    public void testThis()
+    {
+        testOneMove(Move2x2.B);
+    }
 
     @ParameterizedTest
     @EnumSource(Move2x2.class)

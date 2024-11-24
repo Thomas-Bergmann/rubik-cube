@@ -359,4 +359,10 @@ public class State2x2Test
         State2x2 correctPosition = thirdCorner.move(Move2x2.U2);
         return correctPosition;
     }
+
+    @Test
+    public void testGetPosition()
+    {
+        assertEquals(CornerPosition.TLF, initialState.getCornerPosition(CornerStone.WRG));
+    }
 }
