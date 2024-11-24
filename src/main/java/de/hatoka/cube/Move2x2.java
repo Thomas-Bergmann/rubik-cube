@@ -3,6 +3,9 @@ package de.hatoka.cube;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a move or turn of a 2x2 cube.
+ */
 public enum Move2x2
 {
     U("U", Side.UP, Step.CLOCKWISE), U2("U2", Side.UP, Step.DOUBLE), U_("U'", Side.UP, Step.REVERSE),

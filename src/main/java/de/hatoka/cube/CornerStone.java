@@ -1,5 +1,8 @@
 package de.hatoka.cube;
 
+/**
+ * Represents a cornerstone of a cube. The order of colors starts at top or downside of cube and goes around the clock.
+ */
 public class CornerStone
 {
     private final Color[] colors;

@@ -84,13 +84,6 @@ public class State2x2
         };
     }
 
-    private State2x2 rotateOpen()
-    {
-        int[] newCornerIndices = Arrays.copyOf(cornerIndices, cornerIndices.length);
-        int[] newOrientations = Arrays.copyOf(orientations, orientations.length);
-        return new State2x2(newCornerIndices, newOrientations);
-    }
-
     private State2x2 rotateHorizontal(CornerPosition... positions)
     {
         int[] rotatedCornerIndices = calculateCornerIndices(positions);
