@@ -102,4 +102,14 @@ public enum Move2x2
         }
         return result;
     }
+
+    public Move2x2 getReverseMove()
+    {
+        return switch(steps)
+        {
+            case CLOCKWISE -> Move2x2.values()[ordinal() + 2];
+            case DOUBLE -> this;
+            case REVERSE -> Move2x2.values()[ordinal() - 2];
+        };
+    }
 }

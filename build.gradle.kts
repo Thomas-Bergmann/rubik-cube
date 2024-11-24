@@ -5,7 +5,7 @@ plugins {
     signing
 }
 
-group="de.hatoka.kube"
+group="de.hatoka.cube"
 description="Rubik's Cube Solver"
 // will be defined by build
 // version=
