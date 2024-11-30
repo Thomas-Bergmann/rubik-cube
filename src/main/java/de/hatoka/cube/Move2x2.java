@@ -112,4 +112,9 @@ public enum Move2x2
             case REVERSE -> Move2x2.values()[ordinal() - 2];
         };
     }
+
+    public static Move2x2 fromOrdinal(int ordinal)
+    {
+        return Move2x2.values()[ordinal];
+    }
 }
