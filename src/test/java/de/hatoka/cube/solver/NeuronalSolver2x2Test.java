@@ -43,7 +43,11 @@ public class NeuronalSolver2x2Test
                 State2x2 startPosition = State2x2.INITIAL.move(List.of(move1, move2));
                 List<Move2x2> moves = SOLVER.solve(startPosition);
                 State2x2 expectedFinished = startPosition.move(moves);
-                assertTrue(expectedFinished.isFinished());
+                if (! expectedFinished.isFinished())
+                {
+                    assertTrue(expectedFinished.isFinished(), "INIT(" + move1 +","+ move2 + ") ->" + SOLVER.solve(startPosition));
+                }
+                assertTrue(expectedFinished.isFinished(), "INIT(" + move1 +","+ move2 + ") ->" + moves);
             }
         }
     }
