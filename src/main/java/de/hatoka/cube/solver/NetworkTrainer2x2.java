@@ -58,6 +58,8 @@ public class NetworkTrainer2x2 implements Solver2x2
             percentage = correct * 100 / trainingProgram.size(); // 100% / 1000 iterations
             if (countTrainings % 10 == 0) {
                 LoggerFactory.getLogger(getClass()).debug("solves to {}% and with {} training sessions with effort {}.", percentage, countTrainings, trainingAdaption);
+                trainingProgram.stream().filter(t -> !networkUnderTraining.verify(t)).forEach(
+                                t -> LoggerFactory.getLogger(getClass()).debug("can't solve {}.", t.scrambleMoves()));
             }
         }
         LoggerFactory.getLogger(getClass()).debug("solves it with {} training sessions.", countTrainings);
@@ -66,26 +68,26 @@ public class NetworkTrainer2x2 implements Solver2x2
 
     private List<Training2x2> createTrainingProgram(int numberOfMoves)
     {
-        List<Training2x2> trainingLastLevel = createTrainingProgram(State2x2.INITIAL);
+        List<Training2x2> trainingLastLevel = createTrainingProgram(new Training2x2(List.of(), State2x2.INITIAL, null));
         if (numberOfMoves == 1)
         {
             return trainingLastLevel;
         }
-        if (numberOfMoves == 2)
-        {
-            return List.of();
-        }
         List<Training2x2> trainingNextLevel = new ArrayList<>(trainingLastLevel);
         for(Training2x2 lastLevel : trainingLastLevel)
         {
-            trainingNextLevel.addAll(createTrainingProgram(lastLevel.state()));
+            trainingNextLevel.addAll(createTrainingProgram(lastLevel));
         }
         return trainingNextLevel;
     }
 
-    private List<Training2x2> createTrainingProgram(State2x2 previousState)
+    private List<Training2x2> createTrainingProgram(Training2x2 previousTraining)
     {
-        return Arrays.stream(Move2x2.values()).map(move -> new Training2x2(previousState.move(move), move.getReverseMove())).toList();
+        return Arrays.stream(Move2x2.values()).map(move -> {
+            List<Move2x2> scrambleMoves = new ArrayList<>(previousTraining.scrambleMoves());
+            scrambleMoves.add(move);
+            return new Training2x2(scrambleMoves, previousTraining.state().move(move), move.getReverseMove());
+        }).filter(t -> !t.state().isFinished()).toList();
     }
 
     private List<Move2x2> randomMoves(int numberOfMoves)
