@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class CubeNetwork2x2 implements Solver2x2
 {
-    private static final int AMOUNT_INPUT_CORNER_POSITION = 8;
-    private static final int AMOUNT_INPUT_CORNER_ORIENTATION = 8;
-    private static final int AMOUNT_INPUT = AMOUNT_INPUT_CORNER_ORIENTATION + AMOUNT_INPUT_CORNER_POSITION;
+    private static final int NUMBER_OF_CORNER_POSITION = CornerStone.values().length;
+    private static final int NUMBER_OF_CORNER_ORIENTATIONS = 3;
+    private static final int AMOUNT_INPUT = (NUMBER_OF_CORNER_ORIENTATIONS + NUMBER_OF_CORNER_POSITION) * NUMBER_OF_CORNER_POSITION;
     private static final int NUMBER_OF_MOVES = Move2x2.values().length;
     private static final int AMOUNT_OUTPUT = NUMBER_OF_MOVES;
     private final NeuralNetwork network; // network which solves cube with one move less
@@ -71,6 +71,7 @@ public class CubeNetwork2x2 implements Solver2x2
 
     /**
      * Train the next move/turn
+     *
      * @param training training step ( state of cube + correct move to solve cube)
      * @return adaption of network
      */
@@ -85,7 +86,7 @@ public class CubeNetwork2x2 implements Solver2x2
      */
     public boolean verify(Training2x2 training)
     {
-        return training.move() == guess(training.state());
+        return training.move() == guess(training.state()) || training.state().move(solve(training.state())).isFinished();
     }
 
     /**
@@ -104,6 +105,7 @@ public class CubeNetwork2x2 implements Solver2x2
 
     /**
      * Adapt guessed values with the "correct" values in case the cube is finished.
+     *
      * @param move correct move
      * @return adapted guessed values
      */
@@ -126,8 +128,14 @@ public class CubeNetwork2x2 implements Solver2x2
         int i = 0;
         for (CornerStone cornerStone : CornerStone.values())
         {
-            result[i++] = (double)(state.getCornerPosition(cornerStone).ordinal() + 1) / CornerPosition.values().length;
-            result[i++] = (double)(state.getRotation(cornerStone) + 1) / 3;
+            for (int p = 0; p < NUMBER_OF_CORNER_POSITION; p++)
+            {
+                result[i++] = state.getCornerPosition(cornerStone).ordinal() % NUMBER_OF_CORNER_POSITION == p ? 1 : 0;
+            }
+            for (int p = 0; p < NUMBER_OF_CORNER_ORIENTATIONS; p++)
+            {
+                result[i++] = state.getRotation(cornerStone) % NUMBER_OF_CORNER_ORIENTATIONS == p ? 1 : 0;
+            }
         }
         return result;
     }
