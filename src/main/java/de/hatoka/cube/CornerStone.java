@@ -1,21 +1,32 @@
 package de.hatoka.cube;
 
-public class CornerStone
+/**
+ * Represents a cornerstone of a cube. The order of colors starts at top or downside of cube and goes around the clock.
+ */
+public enum CornerStone
 {
+    WRG, WGO, WOB, WBR, YRB, YBO, YOG, YGR;
+
     private final Color[] colors;
-    CornerStone(Color[] colors)
+
+    CornerStone()
     {
-        this.colors = colors;
+        colors = fromNotation(name());
     }
 
-    static CornerStone fromNotation(String notation)
+    static Color[] fromNotation(String notation)
     {
         Color[] colors = new Color[notation.length()];
         for (int i = 0; i < notation.length(); i++)
         {
             colors[i] = Color.fromChar(notation.charAt(i));
         }
-        return new CornerStone(colors);
+        return colors;
+    }
+
+    public static CornerStone fromOrdinal(int index)
+    {
+        return CornerStone.values()[index];
     }
 
     public Color getColor(int index)

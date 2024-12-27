@@ -1,0 +1,105 @@
+package de.hatoka.cube.solver;
+
+import de.hatoka.cube.Move2x2;
+import de.hatoka.cube.State2x2;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Solves a 2x2 cube using a neural network.
+ */
+public class NetworkTrainer2x2 implements Solver2x2
+{
+    private static final int NUMBER_OF_MOVES = Move2x2.values().length;
+    private static final Random RANDOMIZER = new Random(10);
+    private CubeNetwork2x2 trainedNetwork; // network which solves cube with one move less
+
+    @Override
+    public List<Move2x2> solve(State2x2 state)
+    {
+        if (trainedNetwork == null)
+        {
+            this.trainedNetwork = train();
+        }
+        return trainedNetwork.solve(state);
+    }
+
+    private CubeNetwork2x2 train()
+    {
+        CubeNetwork2x2 network = CubeNetwork2x2.create(2);
+        train(1, network);
+        train(2, network);
+        return network;
+    }
+
+    private void train(int numberOfMoves, CubeNetwork2x2 networkUnderTraining)
+    {
+        var trainingProgram = createTrainingProgram(numberOfMoves);
+        // unknown how to train yet
+        if (trainingProgram.isEmpty())
+        {
+            return;
+        }
+        long percentage = 0;
+        int countTrainings = 0;
+        while(percentage < 100)
+        {
+            // train only failed
+            long trainingAdaption = trainingProgram.stream()
+                           .filter(t -> !networkUnderTraining.verify(t)).map(networkUnderTraining::train).reduce(0.0, Double::sum).longValue();
+            countTrainings++;
+            // verify training
+            long correct = trainingProgram.stream().filter(networkUnderTraining::verify).count();
+            percentage = correct * 100 / trainingProgram.size(); // 100%
+            if (countTrainings % 10 == 0)
+            {
+                LoggerFactory.getLogger(getClass())
+                             .debug("solves to {}% and with {} training sessions with effort {}.", percentage, countTrainings, trainingAdaption);
+                if (percentage > 94)
+                {
+                    trainingProgram.stream()
+                                   .filter(t -> !networkUnderTraining.verify(t))
+                                   .forEach(t -> LoggerFactory.getLogger(getClass()).debug("can't solve {}.", t.scrambleMoves()));
+                }
+            }
+        }
+        LoggerFactory.getLogger(getClass()).debug("solves it with {} training sessions.", countTrainings);
+    }
+
+    private Set<Training2x2> createTrainingProgram(int numberOfMoves)
+    {
+        Set<Training2x2> trainingLastLevel = createTrainingProgram(new Training2x2(List.of(), State2x2.INITIAL, null)).collect(Collectors.toSet());
+        if (numberOfMoves == 1)
+        {
+            return trainingLastLevel;
+        }
+        Set<Training2x2> trainingNextLevel = new HashSet<>(trainingLastLevel);
+        for (Training2x2 lastLevel : trainingLastLevel)
+        {
+            trainingNextLevel.addAll(createTrainingProgram(lastLevel).filter(t -> !trainingNextLevel.contains(t)).toList());
+        }
+        return trainingNextLevel;
+    }
+
+    private Stream<Training2x2> createTrainingProgram(Training2x2 previousTraining)
+    {
+        return Arrays.stream(Move2x2.values()).map(move -> {
+            List<Move2x2> scrambleMoves = new ArrayList<>(previousTraining.scrambleMoves());
+            scrambleMoves.add(move);
+            return new Training2x2(scrambleMoves, previousTraining.state().move(move), move.getReverseMove());
+        }).filter(t -> !t.state().isFinished());
+    }
+
+    private List<Move2x2> randomMoves(int numberOfMoves)
+    {
+        List<Move2x2> result = new ArrayList<>(numberOfMoves);
+        for (int i = 0; i < numberOfMoves; i++)
+        {
+            result.add(Move2x2.fromOrdinal(RANDOMIZER.nextInt(NUMBER_OF_MOVES)));
+        }
+        return result;
+    }
+}

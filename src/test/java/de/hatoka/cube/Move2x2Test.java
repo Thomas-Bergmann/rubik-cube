@@ -51,4 +51,13 @@ public class Move2x2Test
         assertEquals(Move2x2.R, moves.get(1));
         assertEquals(Move2x2.U2, moves.get(2));
     }
+
+    @Test
+    public void testReverse()
+    {
+        assertEquals(Move2x2.L_, Move2x2.L.getReverseMove());
+        assertEquals(Move2x2.L, Move2x2.L_.getReverseMove());
+        assertEquals(Move2x2.L2, Move2x2.L2.getReverseMove());
+        assertEquals(Move2x2.R_, Move2x2.R.getReverseMove());
+    }
 }
